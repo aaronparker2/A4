@@ -29,5 +29,7 @@ namespace A4.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<A4.Models.Character> Characters { get; set; }
     }
 }

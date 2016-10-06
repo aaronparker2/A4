@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using A4.DAL;
 
 namespace A4.Controllers
 {
     public class HomeController : Controller
     {
+        private CharacterContext db = new CharacterContext();
         public ActionResult Index()
         {
             return View();
