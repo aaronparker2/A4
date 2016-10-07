@@ -1,19 +1,33 @@
-﻿@model IEnumerable<A4.Models.Character>
+﻿
+@model PagedList.IPagedList<A4.Models.Character>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Marvel Characters";
 }
-
-<h2>Index</h2>
+@if (Model.Count() <= 0)
+{
+    <h3 style="color: #9913A1">There are <strong>No</strong> results from current search!</h3>
+}
+<h2>Heroes/Villains</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "Character", FormMethod.Get))
+{
+    <p>
+        Find by Comic: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search"/>
+    </p>
+}
+
 <table class="table">
 
     <tr>
         <th>
-            @Html.ActionLink("Character Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+            @Html.ActionLink("Character Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
         </th>
         <th>
             Release Date
@@ -22,10 +36,10 @@
             Comic Name
         </th>
         <th>
-            @Html.ActionLink("Weight", "Index", new { sortOrder = ViewBag.WeightSortParm })
+            @Html.ActionLink("Weight", "Index", new { sortOrder = ViewBag.WeightSortParm, currentFilter = ViewBag.CurrentFilter }) lbs
         </th>
         <th>
-            @Html.ActionLink("Height", "Index", new { sortOrder = ViewBag.HeightSortParm })
+            @Html.ActionLink("Height", "Index", new { sortOrder = ViewBag.HeightSortParm, currentFilter = ViewBag.CurrentFilter }) inches
         </th>
         <th>
             Description
@@ -67,3 +81,78 @@
     }
 
 </table>
+
+<br/>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+
+
+@*@{
+    var db = Database.Open("MarvelHeroes");
+    var SQLREAD = "SELECT * FROM MarvelHeroes";
+    var data = db.Query(SQLREAD);
+    var filter = db.Query(SQLREAD);
+    if (IsPost)
+    {
+        string comicVar = Request["Comic"];
+        //comicVar = Request["Comic"];
+        data = db.Query("SELECT * FROM MarvelHeroes WHERE ComicName=@0", comicVar);
+
+    }
+
+}
+
+
+<div class="container">
+    <div class="row">
+        <section class="col-md-6">
+            <h2>Heroes Weight and Height</h2>
+
+            <ul>
+                @foreach (var heroes in data)
+                {
+                    <li>
+                        <a href="/marvelheroes/@heroes.CharacterName"> @heroes.CharacterName</a>
+                        <span>&nbsp;</span>@heroes.Weight<span>&nbsp;</span>@heroes.Height
+                    </li>
+                }
+
+            </ul>
+        </section>
+        <section class="col-md-1">
+            <form method="post">
+                <div class="dropdown">
+                    <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown"
+                            style="color: black;font-size: 1.2em; font-weight: 600; background-color: #CCA31E">
+                        Filter by Comic Name
+                        <span class="caret"></span>
+                    </button>
+
+                    <ul id="dropBack" class="dropdown-menu">
+
+                        @foreach (var heroes in filter)
+                        {
+
+                            @*<option value="@heroes.ComicName">@heroes.ComicName</option>
+                            <li>
+                                <input class="dropdownFilter" type="submit" value="@heroes.ComicName" name="Comic" />
+                                @*<a href="~/Default.cshtml">@heroes.ComicName</a>
+                            </li>
+
+                        }
+
+
+                    </ul>
+
+                </div>
+            </form>
+            <span><br /></span>
+            <label class="btn btn-warning" type="button" style="color: black;font-size: 16px;  font-weight: 600; background-color: #CCA31E">
+                <a href="~/Create.cshtml">Add New Character</a>
+            </label>
+
+        </section>
+        <section class="col-md-5"></section>
+    </div>
+</div>*@

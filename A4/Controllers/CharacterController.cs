@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using A4.Models;
 using A4.DAL;
+using PagedList;
 
 namespace A4.Controllers
 {
@@ -15,22 +16,32 @@ namespace A4.Controllers
     {
         private CharacterContext db = new CharacterContext();
 
-        // GET: Characters
-        //public ActionResult Index()
-        //{
-        //    return View(db.Character.ToList());
-        //}
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.WeightSortParm = sortOrder == "Weight" ? "weight_desc" : "Weight";
             ViewBag.HeightSortParm = sortOrder == "Height" ? "height_desc" : "Height";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+
             var characters = from c in db.Character
                            select c;
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                characters = characters.Where(c => c.CharacterName.ToUpper().Contains(searchString.ToUpper()));
+                characters = characters.Where(c => c.ComicName.ToUpper().Contains(searchString.ToUpper()));
             }
+
             switch (sortOrder)
             {
                 case "name_desc":
@@ -53,7 +64,10 @@ namespace A4.Controllers
                     characters = characters.OrderBy(c => c.CharacterName);
                     break;
             }
-            return View(characters.ToList());
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(characters.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Characters/Details/5

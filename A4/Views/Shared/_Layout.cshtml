@@ -27,8 +27,15 @@
         </div>
     </div>
     <div class="container">
-        @RenderBody()
-        <hr />
+        <div class="row">
+            <section class="col-md-1"></section>
+            <section class="col-md-10">
+                @RenderBody()
+            </section>
+
+            <hr /><section class="col-md-1"></section>
+        </div>
+
         <footer>
             <p>&copy; @DateTime.Now.Year - Marvel Universe</p>
         </footer>
