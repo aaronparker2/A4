@@ -73,86 +73,161 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID })<br />
-                @Html.ActionLink("Details", "Details", new { id = item.ID })<br />
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })<br />
+                @Html.ActionLink("Edit", "Edit", new { id = item.CharacterName })<br />
+                @Html.ActionLink("Details", "Details", new { id = item.CharacterName })<br />
+                @Html.ActionLink("Delete", "Delete", new { id = item.CharacterName })<br />
             </td>
         </tr>
     }
 
 </table>
 
+
+
 <br/>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
 
+@if (Model.CharacterVersion != null)
+{
+    <h3>Outfit or Different Version of Selected Character</h3>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Version</th>
+                <th>CharacterName</th>
+            </tr>
+            @foreach (var item in Model.CharacterVersion)
+            {
+                string selectedRow = "";
+                if (item.CourseID == ViewBag.CourseID)
+                {
+                    selectedRow = "success";
+                }
+                <tr class="@selectedRow">
+                    <td>
+                        @Html.ActionLink("Select", "Index", new { courseID = item.CourseID })
+                    </td>
+                    <td>
+                        @item.CourseID
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Department.Name
+                    </td>
+                </tr>
+            }
+        </table>
+}
+@*
 
-@*@{
-    var db = Database.Open("MarvelHeroes");
-    var SQLREAD = "SELECT * FROM MarvelHeroes";
-    var data = db.Query(SQLREAD);
-    var filter = db.Query(SQLREAD);
-    if (IsPost)
+
+    @model WSU.ViewModels.InstructorIndexData
+    @{ ViewBag.Title = "Instructors";
+    }
+    <h2>Instructors</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Hire Date</th>
+            <th>Office</th>
+            <th>Courses</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Instructors)
+        {
+            string selectedRow = ""; if (item.ID == ViewBag.InstructorID) { selectedRow = "success"; }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstMidName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HireDate)
+            </td>
+            <td> @if (item.OfficeAssignment != null)
+            { @item.OfficeAssignment.Location } </td>
+            <td>
+                @{ foreach (var course in item.Courses)
+                    { @course.CourseID @: @course.Title <br />
+                    }
+                }
+            </td>
+
+            <td>
+                @Html.ActionLink("Select", "Index", new { id = item.ID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+        }
+    </table>
+
+    @if (Model.Courses != null)
     {
-        string comicVar = Request["Comic"];
-        //comicVar = Request["Comic"];
-        data = db.Query("SELECT * FROM MarvelHeroes WHERE ComicName=@0", comicVar);
-
+        <h3>Courses Taught by Selected Instructor</h3>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Number</th>
+                <th>Title</th>
+                <th>Department</th>
+            </tr>
+            @foreach (var item in Model.Courses)
+            {
+                string selectedRow = "";
+                if (item.CourseID == ViewBag.CourseID)
+                {
+                    selectedRow = "success";
+                }
+                <tr class="@selectedRow">
+                    <td>
+                        @Html.ActionLink("Select", "Index", new { courseID = item.CourseID })
+                    </td>
+                    <td>
+                        @item.CourseID
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Department.Name
+                    </td>
+                </tr>
+            }
+        </table>
     }
 
-}
-
-
-<div class="container">
-    <div class="row">
-        <section class="col-md-6">
-            <h2>Heroes Weight and Height</h2>
-
-            <ul>
-                @foreach (var heroes in data)
-                {
-                    <li>
-                        <a href="/marvelheroes/@heroes.CharacterName"> @heroes.CharacterName</a>
-                        <span>&nbsp;</span>@heroes.Weight<span>&nbsp;</span>@heroes.Height
-                    </li>
-                }
-
-            </ul>
-        </section>
-        <section class="col-md-1">
-            <form method="post">
-                <div class="dropdown">
-                    <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown"
-                            style="color: black;font-size: 1.2em; font-weight: 600; background-color: #CCA31E">
-                        Filter by Comic Name
-                        <span class="caret"></span>
-                    </button>
-
-                    <ul id="dropBack" class="dropdown-menu">
-
-                        @foreach (var heroes in filter)
-                        {
-
-                            @*<option value="@heroes.ComicName">@heroes.ComicName</option>
-                            <li>
-                                <input class="dropdownFilter" type="submit" value="@heroes.ComicName" name="Comic" />
-                                @*<a href="~/Default.cshtml">@heroes.ComicName</a>
-                            </li>
-
-                        }
-
-
-                    </ul>
-
-                </div>
-            </form>
-            <span><br /></span>
-            <label class="btn btn-warning" type="button" style="color: black;font-size: 16px;  font-weight: 600; background-color: #CCA31E">
-                <a href="~/Create.cshtml">Add New Character</a>
-            </label>
-
-        </section>
-        <section class="col-md-5"></section>
-    </div>
-</div>*@
+    @if (Model.Enrollments != null)
+    {
+        <h3>
+            Students Enrolled in Selected Course
+        </h3>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+            </tr>
+            @foreach (var item in Model.Enrollments)
+            {
+                <tr>
+                    <td>
+                        @item.Student.FullName
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grade)
+                    </td>
+                </tr>
+            }
+        </table>
+    }

@@ -206,15 +206,24 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CharacterController.cs" />
+    <Compile Include="Controllers\CharacterVersionController.cs" />
     <Compile Include="Controllers\DAL\CharacterContext.cs" />
     <Compile Include="Controllers\DAL\Initializer.cs" />
+    <Compile Include="Controllers\HeroIdentityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610060458129_InitialCreate.cs" />
+    <Compile Include="Migrations\201610060458129_InitialCreate.Designer.cs">
+      <DependentUpon>201610060458129_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Character.cs" />
+    <Compile Include="Models\CharacterVersion.cs" />
+    <Compile Include="Models\HeroIdentity.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -300,6 +309,16 @@
     <Content Include="Views\Character\Details.cshtml" />
     <Content Include="Views\Character\Edit.cshtml" />
     <Content Include="Views\Character\Index.cshtml" />
+    <Content Include="Views\CharacterVersion\Create.cshtml" />
+    <Content Include="Views\CharacterVersion\Delete.cshtml" />
+    <Content Include="Views\CharacterVersion\Details.cshtml" />
+    <Content Include="Views\CharacterVersion\Edit.cshtml" />
+    <Content Include="Views\CharacterVersion\Index.cshtml" />
+    <Content Include="Views\HeroIdentity\Create.cshtml" />
+    <Content Include="Views\HeroIdentity\Delete.cshtml" />
+    <Content Include="Views\HeroIdentity\Details.cshtml" />
+    <Content Include="Views\HeroIdentity\Edit.cshtml" />
+    <Content Include="Views\HeroIdentity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -309,6 +328,11 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201610060458129_InitialCreate.resx">
+      <DependentUpon>201610060458129_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
