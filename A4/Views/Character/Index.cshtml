@@ -89,7 +89,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
 
-@if (Model.CharacterVersion != null)
+@*@if (Model.CharacterVersion != null)
 {
     <h3>Outfit or Different Version of Selected Character</h3>
         <table class="table">
@@ -120,7 +120,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                     </td>
                 </tr>
             }
-        </table>
+        </table>*@
 }
 @*
 
