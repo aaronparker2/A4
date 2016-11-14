@@ -17,8 +17,7 @@ namespace A4.Controllers
         // GET: CharacterVersion
         public ActionResult Index()
         {
-            var characterVersions = db.CharacterVersions.Include(c => c.Character);
-            return View(characterVersions.ToList());
+            return View(db.CharacterVersions.ToList());
         }
 
         // GET: CharacterVersion/Details/5
@@ -39,7 +38,6 @@ namespace A4.Controllers
         // GET: CharacterVersion/Create
         public ActionResult Create()
         {
-            ViewBag.CharacterName = new SelectList(db.Characters, "CharacterName", "ComicName");
             return View();
         }
 
@@ -48,7 +46,7 @@ namespace A4.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CharacterVersionID,Version,CharacterName")] CharacterVersion characterVersion)
+        public ActionResult Create([Bind(Include = "CharacterVersionID,CharacterName,Version")] CharacterVersion characterVersion)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +55,6 @@ namespace A4.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CharacterName = new SelectList(db.Characters, "CharacterName", "ComicName", characterVersion.CharacterName);
             return View(characterVersion);
         }
 
@@ -73,7 +70,6 @@ namespace A4.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CharacterName = new SelectList(db.Characters, "CharacterName", "ComicName", characterVersion.CharacterName);
             return View(characterVersion);
         }
 
@@ -82,7 +78,7 @@ namespace A4.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CharacterVersionID,Version,CharacterName")] CharacterVersion characterVersion)
+        public ActionResult Edit([Bind(Include = "CharacterVersionID,CharacterName,Version")] CharacterVersion characterVersion)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +86,6 @@ namespace A4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CharacterName = new SelectList(db.Characters, "CharacterName", "ComicName", characterVersion.CharacterName);
             return View(characterVersion);
         }
 

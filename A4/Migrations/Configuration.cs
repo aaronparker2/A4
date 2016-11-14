@@ -1,3 +1,4 @@
+
 namespace A4.Migrations
 {
     using A4.Models;
@@ -15,10 +16,9 @@ namespace A4.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            //ContextKey = "A4.DAL.CharacterContext";
         }
 
-        protected override void Seed(A4.DAL.CharacterContext context)
+        protected override void Seed(CharacterContext context)
         {
 
             var characters = new List<Character>
@@ -57,7 +57,7 @@ namespace A4.Migrations
                 new Character{CharacterName="Invisible Woman",ReleaseDate=DateTime.Parse("2015-09-01"),ComicName="Fantastic Four",Weight=120,Height=66,
                     Description ="Susan Storm 'The Invisible Woman' psionic ability to manipulate ambient cosmic energy enables her to bend light around her body without distortion, thus rendering herself invisible. The cells of her body produce an unknown form of energy she can mentally project around other people and objects -- rending them invisible, as well. Richards' brain cells produce psionic force she can shape into relatively simple forms - such as rectangle planes, globes, cylinders, cones and domes. Also, she can mentally project protective fields that are highly resistant to concussive forces. And by projecting columns of psionic force beneath her, she can travel through the air. "},
             };
-            characters.ForEach(s => context.Character.Add(s));
+            characters.ForEach(s => context.Characters.AddOrUpdate(p => p.CharacterName, s));
             context.SaveChanges();
             var versions = new List<CharacterVersion>
             {
@@ -81,107 +81,118 @@ namespace A4.Migrations
                 Version = "Scarlet Spider"},
 
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "The Thing").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Classic"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Silver Surfer").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Black"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Daredevil").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Dark"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Wolverine").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Bone Claw"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Colossus").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Classic"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Captain America").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Classic"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Venom").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "License to kill"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Electra").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Classic"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Storm").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Extreme"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Rogue").CharacterName,
-                Version = "Scarlet Spider"},
+                Version = "Classic"},
             new CharacterVersion {CharacterName = characters.Single(c => c.CharacterName == "Invisible Woman").CharacterName,
-                Version = "Scarlet Spider"}
-            
-            };
-            versions.ForEach(c => context.CharacterVersion.Add(c));
-            context.SaveChanges();
+                Version = "Classic"}
 
-            var heroIdentitys = new List<HeroIdentity>
-            {
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Hulk").CharacterName,
-                    IdentityName = "Bruce Banner",
-                    Email = "bbanner@gmail.com"
-                },
-                 new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Thor").CharacterName,
-                    IdentityName = "Thor Odinson",
-                    Email = "todinson@gmail.com"
-                },
-                 new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Spiderman").CharacterName,
-                    IdentityName = "Peter Parker",
-                    Email = "pparker@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "The Thing").CharacterName,
-                    IdentityName = "Benjamin Grim",
-                    Email = "bgrim@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Silver Surfer").CharacterName,
-                    IdentityName = "Norrin Radd",
-                    Email = "nradd@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Daredevil").CharacterName,
-                    IdentityName = "Matt Murdock",
-                    Email = "mmurdock@gmail.com"
-                },
-                   new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Wolverine").CharacterName,
-                    IdentityName = "James Howlett",
-                    Email = "jhowlett@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Colossus").CharacterName,
-                    IdentityName = "Peter Rasputin",
-                    Email = "prasputin@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Captain America").CharacterName,
-                    IdentityName = "Steve Rogers",
-                    Email = "srogers@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Venom").CharacterName,
-                    IdentityName = "Eddie Brock",
-                    Email = "ebrock@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Electra").CharacterName,
-                    IdentityName = "Elektra Natchios",
-                    Email = "enatchios@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Storm").CharacterName,
-                    IdentityName = "Bruce Banner",
-                    Email = "bbanner@gmail.com"
-                },
-                new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Rogue").CharacterName,
-                    IdentityName = "Bruce Banner",
-                    Email = "bbanner@gmail.com"
-                },
-                 new HeroIdentity {
-                    CharacterName = characters.Single(s => s.CharacterName == "Invisible Woman").CharacterName,
-                    IdentityName = "Susan Storm",
-                    Email = "sstorm@gmail.com"
-                }
             };
-            heroIdentitys.ForEach(s => context.HeroIdentity.AddOrUpdate(p => p.CharacterName, s));
+            foreach (CharacterVersion e in versions)
+            {
+                var characterInDatabase = context.CharacterVersions.Where(
+                s =>
+                s.Character.CharacterName == e.CharacterName).SingleOrDefault();
+                if (characterInDatabase == null)
+                {
+                    context.CharacterVersions.Add(e);
+                }
+            }
             context.SaveChanges();
         }
+        //versions.ForEach(c => context.CharacterVersion.Add(c));
+        //    context.SaveChanges();
+
+            //var heroIdentitys = new List<HeroIdentity>
+            //{
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Hulk").CharacterName,
+            //        IdentityName = "Bruce Banner",
+            //        Email = "bbanner@gmail.com"
+            //    },
+            //     new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Thor").CharacterName,
+            //        IdentityName = "Thor Odinson",
+            //        Email = "todinson@gmail.com"
+            //    },
+            //     new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Spiderman").CharacterName,
+            //        IdentityName = "Peter Parker",
+            //        Email = "pparker@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "The Thing").CharacterName,
+            //        IdentityName = "Benjamin Grim",
+            //        Email = "bgrim@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Silver Surfer").CharacterName,
+            //        IdentityName = "Norrin Radd",
+            //        Email = "nradd@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Daredevil").CharacterName,
+            //        IdentityName = "Matt Murdock",
+            //        Email = "mmurdock@gmail.com"
+            //    },
+            //       new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Wolverine").CharacterName,
+            //        IdentityName = "James Howlett",
+            //        Email = "jhowlett@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Colossus").CharacterName,
+            //        IdentityName = "Peter Rasputin",
+            //        Email = "prasputin@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Captain America").CharacterName,
+            //        IdentityName = "Steve Rogers",
+            //        Email = "srogers@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Venom").CharacterName,
+            //        IdentityName = "Eddie Brock",
+            //        Email = "ebrock@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Electra").CharacterName,
+            //        IdentityName = "Elektra Natchios",
+            //        Email = "enatchios@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Storm").CharacterName,
+            //        IdentityName = "Bruce Banner",
+            //        Email = "bbanner@gmail.com"
+            //    },
+            //    new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Rogue").CharacterName,
+            //        IdentityName = "Bruce Banner",
+            //        Email = "bbanner@gmail.com"
+            //    },
+            //     new HeroIdentity {
+            //        CharacterName = characters.Single(s => s.CharacterName == "Invisible Woman").CharacterName,
+            //        IdentityName = "Susan Storm",
+            //        Email = "sstorm@gmail.com"
+            //    }
+            //};
+            //heroIdentitys.ForEach(s => context.HeroIdentity.AddOrUpdate(p => p.CharacterName, s));
+
     }
 }

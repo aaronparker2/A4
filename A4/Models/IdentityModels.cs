@@ -33,7 +33,6 @@ namespace A4.Models
         public System.Data.Entity.DbSet<A4.Models.Character> Characters { get; set; }
 
         public System.Data.Entity.DbSet<A4.Models.CharacterVersion> CharacterVersions { get; set; }
-
-        public System.Data.Entity.DbSet<A4.Models.HeroIdentity> HeroIdentities { get; set; }
+        
     }
 }

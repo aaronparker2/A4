@@ -1,4 +1,4 @@
-﻿@model IEnumerable<A4.Models.CharacterVersion>
+﻿@model A4.ViewModel.CharacterIndexData
 
 @{
     ViewBag.Title = "Index";
@@ -6,34 +6,118 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CharacterName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Version)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CharacterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.CharacterVersionID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.CharacterVersionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.CharacterVersionID })
+            </td>
+        </tr>
+    }
+
+    </table>*@
 <table class="table">
+
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Character.CharacterName)
+            Character Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Version)
+            Release Date
         </th>
-        <th></th>
-    </tr>
+        <th>
+            Comic Name
+        </th>
+        <th>
+            Weight
+        </th>
+        <th>
+            Height
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Action
+        </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Character.CharacterName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Version)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CharacterVersionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CharacterVersionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CharacterVersionID })
-        </td>
     </tr>
-}
-
+    @foreach (var item in Model.Characters)
+    {
+        string selectedRow = ""; if (item.ID == ViewBag.ID) { selectedRow = "success"; }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.CharacterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComicName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CharacterName })<br />
+                @Html.ActionLink("Details", "Details", new { id = item.CharacterName })<br />
+                @Html.ActionLink("Delete", "Delete", new { id = item.CharacterName })<br />
+            </td>
+        </tr>
+    }
 </table>
+
+@if (Model.CharacterVersions != null)
+{
+    <h3>Courses Taught by Selected Instructor</h3>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>CharacterName</th>
+                <th>Version</th>
+            </tr>
+            @foreach (var item in Model.CharacterVersions)
+            {
+                string selectedRow = "";
+                if (item.CharacterName == ViewBag.CharacterName)
+                {
+                    selectedRow = "success";
+                }
+                <tr class="@selectedRow">
+                    <td>
+                        @Html.ActionLink("Select", "Index", new { characterName = item.CharacterName })
+                    </td>
+                    <td>
+                        @item.Version
+                    </td>
+                </tr>
+            }
+        </table>
+}

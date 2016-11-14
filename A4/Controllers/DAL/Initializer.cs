@@ -46,7 +46,7 @@ namespace A4.DAL
                 new Character{CharacterName="Invisible Woman",ReleaseDate=DateTime.Parse("2015-09-01"),ComicName="Fantastic Four",Weight=120,Height=66,
                     Description ="Susan Storm 'The Invisible Woman' psionic ability to manipulate ambient cosmic energy enables her to bend light around her body without distortion, thus rendering herself invisible. The cells of her body produce an unknown form of energy she can mentally project around other people and objects -- rending them invisible, as well. Richards' brain cells produce psionic force she can shape into relatively simple forms - such as rectangle planes, globes, cylinders, cones and domes. Also, she can mentally project protective fields that are highly resistant to concussive forces. And by projecting columns of psionic force beneath her, she can travel through the air. "},
             };
-            characters.ForEach(s => context.Character.Add(s));
+            characters.ForEach(s => context.Characters.Add(s));
             context.SaveChanges();
 
         }

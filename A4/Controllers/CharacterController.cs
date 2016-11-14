@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using A4.Models;
 using A4.DAL;
+using A4.ViewModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using PagedList;
 
 namespace A4.Controllers
@@ -15,6 +18,20 @@ namespace A4.Controllers
     public class CharacterController : Controller
     {
         private CharacterContext db = new CharacterContext();
+
+        private void PopulateAssignedVersionData(Character character)
+        {
+
+            var allVersion = db.CharacterVersions; var versionCharacterVersion = new HashSet<int>(character.CharacterVersion.Select(c => c.CharacterVersionID));
+            var viewModel = new List<AssignedVersionData>();
+            foreach (var version in allVersion)
+            {
+                viewModel.Add(new AssignedVersionData
+                { CharacterVersionID = version.CharacterVersionID, Version = version.Version, Assigned = versionCharacterVersion.Contains(version.CharacterVersionID) });
+            }
+            ViewBag.CharacterVersion = viewModel;
+        }
+
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -34,7 +51,7 @@ namespace A4.Controllers
             ViewBag.CurrentFilter = searchString;
 
 
-            var characters = from c in db.Character
+            var characters = from c in db.Characters
                            select c;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -77,7 +94,7 @@ namespace A4.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = db.Character.Find(id);
+            Character character = db.Characters.Find(id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -88,6 +105,9 @@ namespace A4.Controllers
         // GET: Characters/Create
         public ActionResult Create()
         {
+            var character = new Character();
+            character.CharacterVersion = new List<CharacterVersion>();
+            PopulateAssignedVersionData(character);
             return View();
         }
 
@@ -100,7 +120,7 @@ namespace A4.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Character.Add(character);
+                db.Characters.Add(character);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -115,7 +135,7 @@ namespace A4.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = db.Character.Find(id);
+            Character character = db.Characters.Find(id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -146,7 +166,7 @@ namespace A4.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Character character = db.Character.Find(id);
+            Character character = db.Characters.Find(id);
             if (character == null)
             {
                 return HttpNotFound();
@@ -159,8 +179,8 @@ namespace A4.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Character character = db.Character.Find(id);
-            db.Character.Remove(character);
+            Character character = db.Characters.Find(id);
+            db.Characters.Remove(character);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

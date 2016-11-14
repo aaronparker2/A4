@@ -12,10 +12,13 @@ namespace A4.Models
     {
              
         public int CharacterVersionID { get; set; }
+
         [StringLength(50, MinimumLength = 3)]
-        public string Version { get; set; }
         
         public string CharacterName { get; set; }
+
+        [DisplayFormat(NullDisplayText = "No Version")]
+        public string Version { get; set; }
 
         public virtual Character Character { get; set; }
     }

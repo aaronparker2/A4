@@ -209,7 +209,6 @@
     <Compile Include="Controllers\CharacterVersionController.cs" />
     <Compile Include="Controllers\DAL\CharacterContext.cs" />
     <Compile Include="Controllers\DAL\Initializer.cs" />
-    <Compile Include="Controllers\HeroIdentityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -223,11 +222,12 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\CharacterVersion.cs" />
-    <Compile Include="Models\HeroIdentity.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\AssignedVersionData.cs" />
+    <Compile Include="ViewModel\CharacterIndexData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -314,11 +314,6 @@
     <Content Include="Views\CharacterVersion\Details.cshtml" />
     <Content Include="Views\CharacterVersion\Edit.cshtml" />
     <Content Include="Views\CharacterVersion\Index.cshtml" />
-    <Content Include="Views\HeroIdentity\Create.cshtml" />
-    <Content Include="Views\HeroIdentity\Delete.cshtml" />
-    <Content Include="Views\HeroIdentity\Details.cshtml" />
-    <Content Include="Views\HeroIdentity\Edit.cshtml" />
-    <Content Include="Views\HeroIdentity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

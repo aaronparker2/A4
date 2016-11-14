@@ -1,16 +1,105 @@
-﻿
-@model PagedList.IPagedList<A4.Models.Character>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+﻿@model PagedList.IPagedList<A4.Models.Character>
 
+    @using PagedList.Mvc;
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+
+@*@model A4.ViewModel.CharacterIndexData*@
 @{
     ViewBag.Title = "Marvel Characters";
 }
-@if (Model.Count() <= 0)
+@*<table class="table">
+
+    <tr>
+        <th>
+            @Html.ActionLink("Character Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Release Date
+        </th>
+        <th>
+            Comic Name
+        </th>
+        <th>
+            @Html.ActionLink("Weight", "Index", new { sortOrder = ViewBag.WeightSortParm, currentFilter = ViewBag.CurrentFilter }) lbs
+        </th>
+        <th>
+            @Html.ActionLink("Height", "Index", new { sortOrder = ViewBag.HeightSortParm, currentFilter = ViewBag.CurrentFilter }) inches
+        </th>
+        <th>
+            Description
+        </th>
+
+        <th>
+            Action
+        </th>
+
+    </tr>
+    @foreach (var item in Model.Characters)
+    {
+        string selectedRow = ""; if (item.ID == ViewBag.ID) { selectedRow = "success"; }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.CharacterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComicName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CharacterName })<br />
+                @Html.ActionLink("Details", "Details", new { id = item.CharacterName })<br />
+                @Html.ActionLink("Delete", "Delete", new { id = item.CharacterName })<br />
+            </td>
+        </tr>
+    }
+</table>
+
+@if (Model.CharacterVersions != null)
 {
-    <h3 style="color: #9913A1">There are <strong>No</strong> results from current search!</h3>
-}
-<h2>Heroes/Villains</h2>
+    <h3>Courses Taught by Selected Instructor</h3>
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th>Number</th>
+                    <th>Title</th>
+                    <th>Department</th>
+                </tr>
+                @foreach (var item in Model.CharacterVersions)
+                {
+                    string selectedRow = "";
+                    if (item.CharacterVersionID == ViewBag.CharacterVersionID)
+                    {
+                        selectedRow = "success";
+                    }
+                    <tr class="@selectedRow">
+                        <td>
+                            @Html.ActionLink("Select", "Index", new { characterVersionID = item.CharacterVersionID })
+                        </td>
+                        <td>
+                            @item.CharacterVersionID
+                        </td>
+                        <td>
+                            @item.CharacterName
+                        </td>
+                        <td>
+                            @item.Version
+                        </td>
+                    </tr>
+                }
+            </table>
+}*@
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -19,7 +108,7 @@
 {
     <p>
         Find by Comic: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search"/>
+        <input type="submit" value="Search" />
     </p>
 }
 
@@ -27,7 +116,7 @@
 
     <tr>
         <th>
-            @Html.ActionLink("Character Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
+            @Html.ActionLink("Character Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Release Date
@@ -82,100 +171,9 @@
 
 </table>
 
-
-
-<br/>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
-
-@*@if (Model.CharacterVersion != null)
-{
-    <h3>Outfit or Different Version of Selected Character</h3>
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>Version</th>
-                <th>CharacterName</th>
-            </tr>
-            @foreach (var item in Model.CharacterVersion)
-            {
-                string selectedRow = "";
-                if (item.CourseID == ViewBag.CourseID)
-                {
-                    selectedRow = "success";
-                }
-                <tr class="@selectedRow">
-                    <td>
-                        @Html.ActionLink("Select", "Index", new { courseID = item.CourseID })
-                    </td>
-                    <td>
-                        @item.CourseID
-                    </td>
-                    <td>
-                        @item.Title
-                    </td>
-                    <td>
-                        @item.Department.Name
-                    </td>
-                </tr>
-            }
-        </table>*@
-}
-@*
-
-
-    @model WSU.ViewModels.InstructorIndexData
-    @{ ViewBag.Title = "Instructors";
-    }
-    <h2>Instructors</h2>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Hire Date</th>
-            <th>Office</th>
-            <th>Courses</th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.Instructors)
-        {
-            string selectedRow = ""; if (item.ID == ViewBag.InstructorID) { selectedRow = "success"; }
-        <tr class="@selectedRow">
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstMidName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HireDate)
-            </td>
-            <td> @if (item.OfficeAssignment != null)
-            { @item.OfficeAssignment.Location } </td>
-            <td>
-                @{ foreach (var course in item.Courses)
-                    { @course.CourseID @: @course.Title <br />
-                    }
-                }
-            </td>
-
-            <td>
-                @Html.ActionLink("Select", "Index", new { id = item.ID }) |
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        </tr>
-        }
-    </table>
-
-    @if (Model.Courses != null)
+@*@if (Model.CharacterVersions != null)
     {
-        <h3>Courses Taught by Selected Instructor</h3>
+        <h3>Version of Character</h3>
         <table class="table">
             <tr>
                 <th></th>
@@ -183,51 +181,33 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                 <th>Title</th>
                 <th>Department</th>
             </tr>
-            @foreach (var item in Model.Courses)
+            @foreach (var item in Model.CharacterVersion)
             {
                 string selectedRow = "";
-                if (item.CourseID == ViewBag.CourseID)
+                if (item.CharacterID == ViewBag.ID)
                 {
                     selectedRow = "success";
                 }
                 <tr class="@selectedRow">
                     <td>
-                        @Html.ActionLink("Select", "Index", new { courseID = item.CourseID })
+                        @Html.ActionLink("Select", "Index", new { ID = item.CharacterID })
                     </td>
                     <td>
-                        @item.CourseID
+                        @item.CharacterVersionID
                     </td>
                     <td>
-                        @item.Title
+                        @item.CharacterName
                     </td>
                     <td>
-                        @item.Department.Name
+                        @item.Version
                     </td>
                 </tr>
             }
         </table>
-    }
+    }*@
 
-    @if (Model.Enrollments != null)
-    {
-        <h3>
-            Students Enrolled in Selected Course
-        </h3>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>Grade</th>
-            </tr>
-            @foreach (var item in Model.Enrollments)
-            {
-                <tr>
-                    <td>
-                        @item.Student.FullName
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Grade)
-                    </td>
-                </tr>
-            }
-        </table>
-    }
+<br/>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+
